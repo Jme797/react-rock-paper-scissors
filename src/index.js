@@ -1,14 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import Header from "./components/header.js";
+import App from "./app.js";
+
 import reportWebVitals from "./reportWebVitals";
-import GameBoard from "./components/gameboard";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Header />
-    <GameBoard />
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -30,3 +30,25 @@
   margin: 0;
   color: rgb(97, 97, 97);
 }
+@media only screen and (max-width: 770px) {
+  .header_container {
+    width: 500px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .header_container {
+    width: 300px;
+  }
+  .header_container img {
+    height: 40px;
+  }
+  .scroeboard_container p {
+    font-size: 12px;
+  }
+  .scroeboard_container {
+    width: 60px;
+  }
+  .scroeboard_container h2 {
+    font-size: 32px;
+  }
+}

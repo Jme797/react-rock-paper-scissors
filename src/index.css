@@ -18,88 +18,197 @@ code {
     monospace;
 }
 
+.container {
+  width: 800px;
+  margin: 0 auto;
+  text-align: right;
+}
 .options_container {
-  background-image: url("images/bg-triangle.svg");
+  width: 500px;
+  height: 500px;
+  background-image: url("./images/bg-triangle.svg");
   background-repeat: no-repeat;
   background-position: center;
-  height: 500px;
-  width: 700px;
   margin: 0 auto;
   position: relative;
 }
-.container {
-  width: 700px;
-  margin: 0 auto;
-  display: flex;
+#rock {
+  position: absolute;
+  top: 40px;
+  left: 30px;
 }
-
-.option {
+#paper {
+  position: absolute;
+  top: 40px;
+  right: 30px;
+}
+#scissor {
+  position: absolute;
+  bottom: 40px;
+  left: 160px;
+}
+.rockContainer {
+  background-color: rgb(0, 0, 170);
+}
+.paperContainer {
+  background-color: rgb(255, 252, 51);
+}
+.scissorsContainer {
+  background-color: rgb(189, 20, 8);
+}
+.optionCont {
+  padding: 20px;
+  display: inline-block;
   border-radius: 50%;
+  box-shadow: 4px 6px 10px rgb(36, 36, 36);
+  transition: 0.3s;
+}
+.option {
   background-color: white;
-  padding: 30px;
-  border: 20px solid blue;
+  padding: 20px;
+  border-top: 10px solid rgb(177, 177, 177);
+  border-radius: 50%;
   width: 80px;
   height: 80px;
-  position: absolute;
-  transition: 0.2s;
 }
-.rock {
-  border-color: rgb(23, 23, 165);
-  left: 120px;
-  top: 40px;
-}
-.paper {
-  border-color: rgb(253, 250, 63);
-  right: 120px;
-  top: 40px;
-}
-.scissors {
-  border-color: rgb(165, 23, 23);
-  left: 260px;
-  bottom: 40px;
-}
-.selection {
-  position: static;
-}
-.choice {
-  width: 180px;
-  flex-basis: 50%;
-  text-align: center;
-}
-.choice img {
-  width: 140px;
-  height: 140px;
-}
-.choice h2 {
-  text-align: center;
-  color: white;
-}
-.spinner {
-  border-color: yellowgreen;
-  width: 140px;
-  height: 140px;
-  display: inline-block;
-  animation: spinner 0.8s infinite ease-in;
+.deciding {
+  background-color: rgb(146, 219, 221);
+  animation: 1s infinite deciding ease-in-out;
 }
 
-.option:hover {
-  box-shadow: 0 0 0 40px rgb(9, 194, 194, 0.04),
-    0 0 0 80px rgb(9, 194, 194, 0.04), 0 0 0 120px rgb(9, 194, 194, 0.02);
+.optionCont:hover {
   transform: scale(1.2);
   cursor: pointer;
 }
-
-@keyframes spinner {
-  0% {
-    border-color: rgb(23, 23, 165);
-    transform: scale(1);
-  }
-  50% {
-    border-color: rgb(253, 250, 63);
+.decisionsCont {
+  display: flex;
+  margin-top: 140px;
+}
+.decisionsCont div {
+  flex-basis: 50%;
+  text-align: center;
+}
+.decisionsCont .option {
+  width: 160px;
+  height: 160px;
+}
+.winner div {
+  box-shadow: 0 0 0 40px rgb(9, 194, 194, 0.04),
+    0 0 0 80px rgb(9, 194, 194, 0.04), 0 0 0 120px rgb(9, 194, 194, 0.02);
+}
+.promt h2 {
+  text-transform: uppercase;
+  color: white;
+}
+.promt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 1;
+}
+.promt button {
+  background-color: white;
+  border: none;
+  padding: 10px 40px;
+  border-radius: 10px;
+  font-size: 22px;
+  text-transform: uppercase;
+}
+.promt button:hover {
+  cursor: pointer;
+  background-color: rgb(230, 230, 230);
+}
+.loser {
+  transform: scale(0.6);
+  opacity: 0.6;
+}
+@keyframes deciding {
+  to {
     transform: scale(1.2);
   }
-  100% {
-    border-color: rgb(165, 23, 23);
-    transform: scale(1);
+}
+.rulesCont {
+  background-color: white;
+  padding: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.4);
+  border-radius: 10px;
+  z-index: 2;
+}
+.rulesCont h2 {
+  margin-top: 0;
+  text-align: right;
+}
+.rulesButton {
+  background: none;
+  color: white;
+  border: 2px solid white;
+  padding: 10px 40px;
+  border-radius: 5px;
+  font-size: 22px;
+  transition: 0.3s;
+  margin-top: 80px;
+}
+.rulesButton:hover {
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+.closeIcon {
+  cursor: pointer;
+}
+@media only screen and (max-width: 770px) {
+  .container {
+    width: 500px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .container {
+    width: 300px;
+  }
+  .options_container {
+    width: 300px;
+    height: 350px;
+  }
+  #rock {
+    top: 0px;
+    left: -10px;
+  }
+  #paper {
+    top: 0px;
+    right: -10px;
+  }
+  #scissor {
+    bottom: 20px;
+    left: 100px;
+  }
+
+  .optionCont {
+    padding: 10px;
+  }
+  .option {
+    padding: 10px;
+    width: 70px;
+    height: 70px;
+  }
+  .rulesCont {
+    transform: translate(-50%, -50%) scale(1);
+    padding-bottom: 20px;
+  }
+  .decisionsCont .option {
+    width: 80px;
+    height: 80px;
+  }
+  .promt button {
+    padding: 10px 20px;
+  }
+  .rulesButton {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
   }
 }

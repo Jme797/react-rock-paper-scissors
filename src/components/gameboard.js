@@ -4,89 +4,191 @@ import paper from "../images/icon-paper.svg";
 import scissors from "../images/icon-scissors.svg";
 
 class GameBoard extends React.Component {
-  constructor() {
-    super();
-    this.handleSelection = this.handleSelection.bind(this);
+  constructor(props) {
+    super(props);
     this.state = {
-      gameState: "playerChoice",
-      playerChoice: null,
-      houseChoice: null,
+      gameState: "playerChoice"
     };
-    this.houseChoice = this.houseChoice.bind(this);
   }
-  handleSelection(sel) {
-    this.setState({ gameState: "houseChoice", playerChoice: sel });
+  resetGame() {
+    this.setState({
+      gameState: "playerChoice",
+      houseChoice: null,
+      playerChoice: null,
+      winner: null
+    });
+  }
+
+  playerChoice(choice) {
+    this.setState({ playerChoice: choice, gameState: "houseChoice" });
     this.houseChoice();
   }
   houseChoice() {
-    let num = Math.floor(Math.random() * 3);
+    let rand = Math.floor(Math.random() * 3);
     let options = ["rock", "paper", "scissors"];
 
     setTimeout(() => {
-      this.setState({ houseChoice: options[num] });
+      this.setState({ houseChoice: options[rand] });
+      this.chooseWinner();
     }, 2000);
   }
+  chooseWinner() {
+    if (this.state.playerChoice == this.state.houseChoice) {
+      this.setState({ winner: "draw" });
+    } else if (this.state.playerChoice == "rock") {
+      if (this.state.houseChoice == "paper") {
+        this.setState({ winner: "house" });
+      } else {
+        this.setState({ winner: "player" });
+      }
+    } else if (this.state.playerChoice == "paper") {
+      if (this.state.houseChoice == "scissors") {
+        this.setState({ winner: "house" });
+      } else {
+        this.setState({ winner: "player" });
+      }
+    } else if (this.state.playerChoice == "scissors") {
+      if (this.state.houseChoice == "rock") {
+        this.setState({ winner: "house" });
+      } else {
+        this.setState({ winner: "player" });
+      }
+    }
+    if (this.state.winner == "player") {
+      this.props.changeScore();
+    } else if (this.state.winner == "house") {
+      this.props.resetScore();
+    }
+    this.setState({ gameState: "result" });
+  }
   render() {
+    let rockDiv = (
+      <div className="optionCont rockContainer">
+        <img src={rock} className="option" />
+      </div>
+    );
+    let paperDiv = (
+      <div className="optionCont paperContainer">
+        <img src={paper} className="option" />
+      </div>
+    );
+    let scissorsDiv = (
+      <div className="optionCont scissorsContainer">
+        <img src={scissors} className="option" />
+      </div>
+    );
+    let playerChoice;
+    if (this.state.playerChoice == "rock") {
+      playerChoice = rockDiv;
+    } else if (this.state.playerChoice == "paper") {
+      playerChoice = paperDiv;
+    } else if (this.state.playerChoice == "scissors") {
+      playerChoice = scissorsDiv;
+    }
+
+    let houseChoice;
+    if (this.state.houseChoice == "rock") {
+      houseChoice = rockDiv;
+    } else if (this.state.houseChoice == "paper") {
+      houseChoice = paperDiv;
+    } else if (this.state.houseChoice == "scissors") {
+      houseChoice = scissorsDiv;
+    } else {
+      houseChoice = (
+        <div className="optionCont deciding">
+          <div className="option "></div>
+        </div>
+      );
+    }
+
     if (this.state.gameState == "playerChoice") {
       return (
         <div className="options_container">
-          <img
+          <div
+            id="rock"
             onClick={() => {
-              this.handleSelection("rock");
+              this.playerChoice("rock");
             }}
-            className="option rock"
-            src={rock}
-          />
-          <img
+          >
+            {rockDiv}
+          </div>
+          <div
+            id="paper"
             onClick={() => {
-              this.handleSelection("paper");
+              this.playerChoice("paper");
             }}
-            className="option paper"
-            src={paper}
-          />
-          <img
+          >
+            {paperDiv}
+          </div>
+          <div
+            id="scissor"
             onClick={() => {
-              this.handleSelection("scissors");
+              this.playerChoice("scissors");
             }}
-            className="option scissors"
-            src={scissors}
-          />
+          >
+            {scissorsDiv}
+          </div>
         </div>
       );
     } else if (this.state.gameState == "houseChoice") {
-      let choice;
-      if (this.state.playerChoice == "rock") {
-        choice = <img src={rock} className="option rock selection" />;
-      } else if (this.state.playerChoice == "paper") {
-        choice = <img src={paper} className="option paper selection" />;
-      } else if (this.state.playerChoice == "scissors") {
-        choice = <img src={scissors} className="option scissors selection" />;
-      }
-      let houseChoice;
-      if (this.state.houseChoice == "rock") {
-        houseChoice = <img src={rock} className="option rock selection" />;
-      } else if (this.state.houseChoice == "paper") {
-        houseChoice = <img src={paper} className="option paper selection" />;
-      } else if (this.state.houseChoice == "scissors") {
-        houseChoice = (
-          <img src={scissors} className="option scissors selection" />
-        );
-      } else {
-        houseChoice = <div className="spinner option selection"></div>;
-      }
-
       return (
-        <div className="container">
-          <div className="choice">
-            {choice}
-            <h2>You chose</h2>
-          </div>
-          <div className="choice">
-            {houseChoice}
-            <h2>Houses Choice</h2>
-          </div>
+        <div class="decisionsCont">
+          <div>{playerChoice}</div>
+          <div>{houseChoice}</div>
         </div>
       );
+    } else if (this.state.gameState == "result") {
+      if (this.state.winner == "draw") {
+        return (
+          <div className="decisionsCont">
+            <div>{playerChoice}</div>
+            <div>{houseChoice}</div>
+            <div className="promt">
+              <h2>{this.state.winner}</h2>
+              <button
+                onClick={() => {
+                  this.resetGame();
+                }}
+              >
+                Play Again
+              </button>
+            </div>
+          </div>
+        );
+      } else {
+        return (
+          <div className="decisionsCont">
+            <div
+              className={
+                this.state.winner == "player" && this.state.winner != "draw"
+                  ? "winner"
+                  : "loser"
+              }
+            >
+              {playerChoice}
+            </div>
+            <div
+              className={
+                this.state.winner == "house" && this.state.winner != "draw"
+                  ? "winner"
+                  : "loser"
+              }
+            >
+              {houseChoice}
+            </div>
+            <div className="promt">
+              <h2>{this.state.winner} Wins</h2>
+              <button
+                onClick={() => {
+                  this.resetGame();
+                }}
+              >
+                Play Again
+              </button>
+            </div>
+          </div>
+        );
+      }
     }
   }
 }
