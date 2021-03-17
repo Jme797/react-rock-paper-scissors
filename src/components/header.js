@@ -11,7 +11,7 @@ class Header extends React.Component {
       <div className="header_container">
         <img src={logo} />
         <div className="scroeboard_container">
-          <p>SCORE</p>
+          <p>SCOREBOARD</p>
           <h2>{this.props.score}</h2>
         </div>
       </div>
